@@ -1,80 +1,191 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NEXUS GAMING</title>
+
 <style>
+* {
+  box-sizing: border-box;
+}
 body {
+  margin: 0;
+  padding: 20px;
   background: #080d1c;
   color: white;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   text-align: center;
-  padding: 25px;
+}
+h1 {
+  color: #35baff;
+  margin-top: 25px;
 }
 .box {
   background: #151f38;
-  padding: 25px;
+  max-width: 400px;
+  margin: 22px auto;
+  padding: 24px;
   border-radius: 18px;
-  max-width: 350px;
-  margin: 35px auto;
+  border: 1px solid #24466e;
 }
-h1 { color: #35baff; }
-input, button {
-  padding: 13px;
-  margin: 8px;
-  border: 0;
-  border-radius: 8px;
-  font-size: 16px;
+p {
+  line-height: 1.6;
 }
 button {
   background: #168cff;
   color: white;
+  border: 0;
+  padding: 13px 20px;
+  margin: 8px;
+  border-radius: 9px;
+  font-size: 16px;
+  cursor: pointer;
 }
-#result { color: #39e6a0; }
+input {
+  width: 90%;
+  padding: 13px;
+  border-radius: 8px;
+  border: 0;
+  font-size: 17px;
+  margin: 10px;
+}
+#result, #locationStatus {
+  color: #39e6a0;
+  overflow-wrap: anywhere;
+}
+.small {
+  color: #b8c7dc;
+  font-size: 13px;
+}
 </style>
 </head>
+
 <body>
+
 <h1>🎮 NEXUS GAMING</h1>
+<p class="small">Welcome to the Gaming World</p>
+
 <div class="box">
-<h2>Number Guessing Game</h2>
-<p>1 से 100 के बीच नंबर पहचानो!</p>
-<input id="guess" type="number" min="1" max="100"
-placeholder="अपना नंबर लिखो">
-<br>
-<button onclick="check()">Guess करो</button>
-<p id="result">खेल शुरू करो!</p>
-<p id="attempts">Attempts: 0</p>
-<button onclick="restart()">Play Again</button>
+  <h2>📍 Location Sharing</h2>
+
+  <p>
+    Location शेयर करना वैकल्पिक है।
+    अगर तुम Share My Location दबाते हो,
+    तो ब्राउज़र तुम्हारी एक बार की Location
+    की अनुमति माँगेगा।
+  </p>
+
+  <p class="small">
+    Location केवल तुम्हारी अनुमति के बाद प्राप्त होगी।
+    इस Demo में Location किसी Server पर नहीं भेजी जाती।
+  </p>
+
+  <button onclick="shareLocation()">
+    Share My Location
+  </button>
+
+  <p id="locationStatus">
+    अभी Location शेयर नहीं की गई है।
+  </p>
 </div>
+
+<div class="box">
+  <h2>🎯 Number Guessing Game</h2>
+
+  <p>1 से 100 के बीच नंबर पहचानो!</p>
+
+  <input
+    id="guess"
+    type="number"
+    min="1"
+    max="100"
+    placeholder="अपना नंबर लिखो"
+  >
+
+  <br>
+
+  <button onclick="checkGuess()">
+    Guess करो
+  </button>
+
+  <p id="result">गेम शुरू करो!</p>
+  <p id="attempts">Attempts: 0</p>
+
+  <button onclick="restartGame()">
+    Play Again
+  </button>
+</div>
+
 <script>
-let answer = Math.floor(Math.random()*100)+1;
+let answer = Math.floor(Math.random() * 100) + 1;
 let count = 0;
-function check() {
- let n = Number(document.getElementById("guess").value);
- let r = document.getElementById("result");
- if (!n || n < 1 || n > 100) {
-   r.textContent = "1 से 100 के बीच नंबर डालो!";
-   return;
- }
- count++;
- document.getElementById("attempts").textContent =
- "Attempts: " + count;
- if (n === answer) {
-   r.textContent = "🎉 सही जवाब! तुम जीत गए!";
- } else if (n < answer) {
-   r.textContent = "थोड़ा बड़ा नंबर डालो!";
- } else {
-   r.textContent = "थोड़ा छोटा नंबर डालो!";
- }
+
+function checkGuess() {
+  const input = document.getElementById("guess");
+  const result = document.getElementById("result");
+  const n = Number(input.value);
+
+  if (!Number.isInteger(n) || n < 1 || n > 100) {
+    result.textContent = "1 से 100 के बीच नंबर डालो!";
+    return;
+  }
+
+  count++;
+
+  document.getElementById("attempts").textContent =
+    "Attempts: " + count;
+
+  if (n === answer) {
+    result.textContent = "🎉 सही जवाब! तुम जीत गए!";
+  } else if (n < answer) {
+    result.textContent = "थोड़ा बड़ा नंबर डालो!";
+  } else {
+    result.textContent = "थोड़ा छोटा नंबर डालो!";
+  }
 }
-function restart() {
- answer = Math.floor(Math.random()*100)+1;
- count = 0;
- document.getElementById("guess").value = "";
- document.getElementById("result").textContent = "नया गेम शुरू!";
- document.getElementById("attempts").textContent = "Attempts: 0";
+
+function restartGame() {
+  answer = Math.floor(Math.random() * 100) + 1;
+  count = 0;
+
+  document.getElementById("guess").value = "";
+  document.getElementById("result").textContent = "नया गेम शुरू!";
+  document.getElementById("attempts").textContent = "Attempts: 0";
+}
+
+function shareLocation() {
+  const status = document.getElementById("locationStatus");
+
+  if (!navigator.geolocation) {
+    status.textContent = "तुम्हारा Browser Location सपोर्ट नहीं करता।";
+    return;
+  }
+
+  status.textContent = "Location की अनुमति का इंतजार है...";
+
+  navigator.geolocation.getCurrentPosition(
+    function(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      status.textContent =
+        "Location सफलतापूर्वक प्राप्त हुई। " +
+        "यह Demo इसे कहीं भेजता या सेव नहीं करता।";
+    },
+    function(error) {
+      status.textContent =
+        "Location नहीं मिली। तुमने अनुमति नहीं दी या Location उपलब्ध नहीं है।";
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 0
+    }
+  );
 }
 </script>
+
 </body>
 </html>
