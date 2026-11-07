@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEXUS GAMING</title>
+<style>
+body {
+  background: #080d1c;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+  padding: 25px;
+}
+.box {
+  background: #151f38;
+  padding: 25px;
+  border-radius: 18px;
+  max-width: 350px;
+  margin: 35px auto;
+}
+h1 { color: #35baff; }
+input, button {
+  padding: 13px;
+  margin: 8px;
+  border: 0;
+  border-radius: 8px;
+  font-size: 16px;
+}
+button {
+  background: #168cff;
+  color: white;
+}
+#result { color: #39e6a0; }
+</style>
+</head>
+<body>
+<h1>🎮 NEXUS GAMING</h1>
+<div class="box">
+<h2>Number Guessing Game</h2>
+<p>1 से 100 के बीच नंबर पहचानो!</p>
+<input id="guess" type="number" min="1" max="100"
+placeholder="अपना नंबर लिखो">
+<br>
+<button onclick="check()">Guess करो</button>
+<p id="result">खेल शुरू करो!</p>
+<p id="attempts">Attempts: 0</p>
+<button onclick="restart()">Play Again</button>
+</div>
+<script>
+let answer = Math.floor(Math.random()*100)+1;
+let count = 0;
+function check() {
+ let n = Number(document.getElementById("guess").value);
+ let r = document.getElementById("result");
+ if (!n || n < 1 || n > 100) {
+   r.textContent = "1 से 100 के बीच नंबर डालो!";
+   return;
+ }
+ count++;
+ document.getElementById("attempts").textContent =
+ "Attempts: " + count;
+ if (n === answer) {
+   r.textContent = "🎉 सही जवाब! तुम जीत गए!";
+ } else if (n < answer) {
+   r.textContent = "थोड़ा बड़ा नंबर डालो!";
+ } else {
+   r.textContent = "थोड़ा छोटा नंबर डालो!";
+ }
+}
+function restart() {
+ answer = Math.floor(Math.random()*100)+1;
+ count = 0;
+ document.getElementById("guess").value = "";
+ document.getElementById("result").textContent = "नया गेम शुरू!";
+ document.getElementById("attempts").textContent = "Attempts: 0";
+}
+</script>
+</body>
+</html>
